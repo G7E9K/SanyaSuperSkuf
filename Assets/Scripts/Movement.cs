@@ -1,80 +1,78 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 //эта строчка гарантирует что наш скрипт не завалится 
 //ести на плеере будет отсутствовать компонент Rigidbody
 //[RequireComponent(typeof(Rigidbody))]
 public class Movement : MonoBehaviour
 {
-    public float Speed = 10f;
-    public float JumpForce = 300f;
+    [SerializeField] private float _moveSpeed = 10f;
+    [SerializeField] private float _rotSpeed = 1f;
+    [SerializeField] private float _gravity = -9.81f;
+    private Vector3 _movementVector;
+    private Vector3 _inputVector;
+    // [SerializeField] private CharacterController _characterController;
+    private InputAsset _actions;
+    private float _mouseX;
 
-    //что бы эта переменная работала добавьте тэг "Ground" на вашу поверхность земли
-    private bool _isGrounded;
-    //private Rigidbody _rb;
-    public CharacterController Controller;
+    void Awake()
+    {
+        _actions = new InputAsset();
+        _actions.Enable();
+        // _actions.Player.Movement.performed += _ => ReadInput();
+        _actions.Player.Attack.performed += _ => Attack();
+    }
 
     void Start()
     {
-       // _rb = GetComponent<Rigidbody>();
+       Cursor.lockState = CursorLockMode.Locked;
+       Cursor.visible = false;
     }
 
-    // обратите внимание что все действия с физикой 
-    // необходимо обрабатывать в FixedUpdate, а не в Update
-    void FixedUpdate()
+    private void FixedUpdate()
     {
-        MovementLogic();
-        JumpLogic();
+        ReadInput();
+        Rotate();
+        Move();
     }
 
-    private void MovementLogic()
+    private void Rotate()
     {
-        float moveHorizontal = Input.GetAxis("Horizontal");
-
-        float moveVertical = Input.GetAxis("Vertical");
-
-        Vector3 movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
-
-        Controller.Move(movement*Speed*Time.deltaTime);
-
-       // _rb.AddForce(movement * Speed);
+        _mouseX = Input.GetAxis("Mouse X");
+        transform.Rotate(Vector3.up, _mouseX*_rotSpeed*Time.deltaTime);
     }
 
-    private void JumpLogic()
+    private void ReadInput()
     {
-        if (Input.GetAxis("Jump") > 0)
-        {
-            if (_isGrounded)
-            {
-                Controller.Move(Vector3.up*Speed*Time.deltaTime);
-                //_rb.AddForce(Vector3.up * JumpForce);
+        _inputVector = _actions.Player.Movement.ReadValue<Vector2>();
+        Debug.Log(_inputVector.ToString());
+        // _movementVector = new Vector3(_inputVector.x, 0, _inputVector.y);
+        _movementVector = _inputVector.x*transform.right + _inputVector.y*transform.forward;
+    }
 
-                // Обратите внимание что я делаю на основе Vector3.up 
-                // а не на основе transform.up. Если персонаж упал или 
-                // если персонаж -- шар, то его личный "верх" может 
-                // любое направление. Влево, вправо, вниз...
-                // Но нам нужен скачек только в абсолютный вверх, 
-                // потому и Vector3.up
-            }
-        }
+    private void Move()
+    {
+        // _inputVector = _actions.Player.Movement.ReadValue<Vector2>();
+        // Debug.Log(_inputVector.ToString());
+        // _movementVector = new Vector3(_inputVector.x, 0, _inputVector.y);
+        // _characterController.Move(_movementVector*_moveSpeed*Time.deltaTime);
+        transform.Translate(_movementVector*_moveSpeed*Time.deltaTime);
+    }
+
+    private void Attack()
+    {
+
     }
 
     void OnCollisionEnter(Collision collision)
     {
-        IsGroundedUpate(collision, true);
+        // IsGroundedUpate(collision, true);
     }
 
     void OnCollisionExit(Collision collision)
     {
-        IsGroundedUpate(collision, false);
-    }
-
-    private void IsGroundedUpate(Collision collision, bool value)
-    {
-        if (collision.gameObject.tag == ("Ground"))
-        {
-            _isGrounded = value;
-        }
+        // IsGroundedUpate(collision, false);
     }
 }
