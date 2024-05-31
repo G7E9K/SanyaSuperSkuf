@@ -17,6 +17,8 @@ public class Movement : MonoBehaviour
     private InputAsset _actions;
     private float _mouseX;
 
+    private Rigidbody _rb;
+
     void Awake()
     {
         _actions = new InputAsset();
@@ -29,9 +31,10 @@ public class Movement : MonoBehaviour
     {
        Cursor.lockState = CursorLockMode.Locked;
        Cursor.visible = false;
+       _rb = GetComponent<Rigidbody>();
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         ReadInput();
         Rotate();
@@ -48,8 +51,9 @@ public class Movement : MonoBehaviour
     {
         _inputVector = _actions.Player.Movement.ReadValue<Vector2>();
         Debug.Log(_inputVector.ToString());
-        // _movementVector = new Vector3(_inputVector.x, 0, _inputVector.y);
+        _movementVector = new Vector3(_inputVector.x, 0, _inputVector.y);
         _movementVector = _inputVector.x*transform.right + _inputVector.y*transform.forward;
+        //_movementVector = _inputVector.x*transform.right + _inputVector.y*transform.forward;
     }
 
     private void Move()
@@ -58,7 +62,8 @@ public class Movement : MonoBehaviour
         // Debug.Log(_inputVector.ToString());
         // _movementVector = new Vector3(_inputVector.x, 0, _inputVector.y);
         // _characterController.Move(_movementVector*_moveSpeed*Time.deltaTime);
-        transform.Translate(_movementVector*_moveSpeed*Time.deltaTime);
+        //transform.Translate(_movementVector*_moveSpeed*Time.deltaTime);
+        _rb.velocity = _movementVector.normalized * _moveSpeed;
     }
 
     private void Attack()

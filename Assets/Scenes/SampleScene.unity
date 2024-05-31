@@ -2597,6 +2597,22 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -8398964229525998538, guid: 68c2d25842ec95b44a7bbaf144ab00bd, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 27d2c98d3cd284d47875f87fa8c83e67, type: 2}
+    - target: {fileID: -6652725513331149018, guid: 68c2d25842ec95b44a7bbaf144ab00bd, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 27d2c98d3cd284d47875f87fa8c83e67, type: 2}
+    - target: {fileID: -4683669308469848369, guid: 68c2d25842ec95b44a7bbaf144ab00bd, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 27d2c98d3cd284d47875f87fa8c83e67, type: 2}
+    - target: {fileID: -4157524182732408741, guid: 68c2d25842ec95b44a7bbaf144ab00bd, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 27d2c98d3cd284d47875f87fa8c83e67, type: 2}
     - target: {fileID: 919132149155446097, guid: 68c2d25842ec95b44a7bbaf144ab00bd, type: 3}
       propertyPath: m_Name
       value: SSS_Draft
@@ -2605,6 +2621,10 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 7439002737948722077, guid: 68c2d25842ec95b44a7bbaf144ab00bd, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 27d2c98d3cd284d47875f87fa8c83e67, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
